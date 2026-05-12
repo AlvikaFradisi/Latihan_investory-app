@@ -8,6 +8,15 @@ Route::get('/', function () {
 });
 
 Route::get('/products', [ProductController::class, 'index']);
-Route::get('/insert', [ProductController::class, 'insert']);
-Route::get('/update/{id}', [ProductController::class, 'update']);
-Route::get('/delete/{id}', [ProductController::class, 'delete']);
+// Route bawaan dari dosen (menyisipkan data dummy otomatis)
+// Route::get('/insert', [ProductController::class, 'insert']);
+
+// Route baru untuk menampilkan form dan menyimpan data
+Route::get('/insert', [ProductController::class, 'create']);
+Route::post('/store', [ProductController::class, 'store'])->name('products.store');
+// Edit form route
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+// Update route using PATCH
+Route::patch('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+// Delete route using DELETE
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');

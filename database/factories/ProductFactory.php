@@ -17,6 +17,8 @@ class ProductFactory extends Factory
             'name' => $this->faker->sentence(3),
             'price' => $this->faker->numberBetween(10000, 1000000),
             'stock' => $this->faker->numberBetween(1, 100),
+            'description' => $this->faker->paragraph(),
+            'status' => $this->faker->randomElement(['tersedia', 'habis']),
         ];
     }
 }

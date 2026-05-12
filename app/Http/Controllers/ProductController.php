@@ -8,14 +8,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        
         $products = \App\Models\Product::with('category')->latest()->paginate(10);
         return view('products.index', compact('products'));
     }
 
+    /*
+    // Kodingan lama dari dosen (menginput data dummy otomatis)
     public function insert()
     {
-        
         $product = new \App\Models\Product;
         $product->name = 'Produk Baru Dummy';
         $product->category_id = 1; 
@@ -27,28 +27,62 @@ class ProductController extends Controller
 
         return "Data produk berhasil ditambahkan";
     }
+    */
 
-    public function update($id)
+    public function create()
     {
-       
-        $product = \App\Models\Product::find($id);
-        if ($product) {
-            $product->name = 'Produk Update Dummy';
-            $product->price = 75000;
-            $product->save();
-            return "Data produk dengan ID {$id} berhasil diupdate!";
-        }
-        return "Data produk dengan ID {$id} tidak ditemukan.";
+        $categories = \App\Models\Category::all();
+        return view('products.create', compact('categories'));
     }
 
-    public function delete($id)
+    public function store(Request $request)
     {
-        
-        $product = \App\Models\Product::find($id);
-        if ($product) {
-            $product->delete();
-            return "Data produk dengan ID {$id} berhasil dihapus dari database!";
-        }
-        return "Data produk dengan ID {$id} tidak ditemukan.";
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'status' => 'required|in:tersedia,habis',
+        ]);
+
+        \App\Models\Product::create($request->all());
+
+        return redirect('/products')->with('success', 'Data produk berhasil ditambahkan!');
     }
+
+    public function edit($id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
+        $categories = \App\Models\Category::all();
+        return view('products.edit', compact('product', 'categories'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
+
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'price'       => 'required|numeric|min:0',
+            'stock'       => 'required|integer|min:0',
+            'description' => 'nullable|string',
+            'status'      => 'required|in:tersedia,habis',
+        ]);
+
+        $product->update($request->all());
+
+        return redirect('/products')->with('success', "Data produk \"{$product->name}\" berhasil diperbarui!");
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
+        $name = $product->name;
+        $product->delete();
+
+        return redirect('/products')->with('success', "Data produk \"{$name}\" berhasil dihapus!");
+    }
+    
 }
