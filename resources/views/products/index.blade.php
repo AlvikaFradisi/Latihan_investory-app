@@ -50,8 +50,12 @@
                 </td>
                 <td>{{ $p->description }}</td>
                 <td>
-                    <a href="{{ url('/update/' . $p->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="{{ url('/delete/' . $p->id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</a>
+                    <form action="{{ route('products.destroy', $p->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <a href="{{ route('products.edit', $p->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
