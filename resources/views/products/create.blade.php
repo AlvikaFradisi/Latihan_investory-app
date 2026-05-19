@@ -5,7 +5,7 @@
     <div class="col-lg-10">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold mb-0">Tambah Barang Baru</h2>
-            <a href="{{ url('/products') }}" class="btn btn-outline-secondary">
+            <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
                 &larr; Kembali
             </a>
         </div>
@@ -15,7 +15,7 @@
                 <p class="text-muted mb-0">Silakan isi formulir di bawah ini dengan detail barang yang ingin ditambahkan.</p>
             </div>
             <div class="card-body p-4">
-                <form action="{{ url('/store') }}" method="POST">
+                <form action="{{ route('products.store') }}" method="POST">
                     @csrf
 
                     <div class="row g-4 mb-4">
@@ -92,7 +92,7 @@
                     <hr class="my-4 text-muted">
 
                     <div class="d-flex justify-content-end gap-3">
-                        <a href="{{ url('/products') }}" class="btn btn-light px-4 py-2">Batalkan</a>
+                        <a href="{{ route('products.index') }}" class="btn btn-light px-4 py-2">Batalkan</a>
                         <button type="submit" class="btn btn-primary px-5 py-2 fw-bold shadow-sm">
                             Simpan Barang
                         </button>

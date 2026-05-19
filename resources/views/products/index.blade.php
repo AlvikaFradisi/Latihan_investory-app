@@ -3,7 +3,7 @@
 @section('content')
 <div class="mb-4">
     <h1>Daftar Barang Inventaris</h1>
-    <a href="{{ url('/insert') }}" class="btn btn-primary mt-2">Tambah Barang</a>
+    <a href="{{ route('products.create') }}" class="btn btn-primary mt-2">Tambah Barang</a>
 </div>
 
 @if(session('success'))
@@ -50,12 +50,8 @@
                 </td>
                 <td>{{ $p->description }}</td>
                 <td>
-                    <form action="{{ route('products.destroy', $p->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <a href="{{ route('products.edit', $p->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                    </form>
+                    <a href="{{ route('products.edit', $p->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{{ route('products.delete', $p->id) }}" class="btn btn-sm btn-danger">Hapus</a>
                 </td>
             </tr>
             @endforeach

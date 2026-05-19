@@ -85,4 +85,9 @@ class ProductController extends Controller
         return redirect('/products')->with('success', "Data produk \"{$name}\" berhasil dihapus!");
     }
     
+    public function delete($id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
+        return view('products.delete', compact('product'));
+    }
 }
